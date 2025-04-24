@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Uber Fare Prediction Project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+    }
+    header, footer {
+      background: #333;
+      color: white;
+      padding: 1em 2em;
+      text-align: center;
+    }
+    main {
+      padding: 2em;
+      max-width: 900px;
+      margin: auto;
+      background: white;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      margin-top: 1em;
+    }
+    a {
+      color: #0066cc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Uber Fare Prediction</h1>
+  </header>
+  <main>
+    <h2>Project Overview</h2>
+    <p>This project uses historical Uber ride data to build a machine learning model that predicts the fare of a trip based on variables such as trip distance, pickup and dropoff locations, time of day, and day of the week.</p>
+    <p>The dataset used for training the model was sourced from <a href="https://www.kaggle.com/datasets/yasserh/uber-fares-dataset" target="_blank">Kaggle: Uber Fares Dataset</a>.</p>
+
+    <h2>Prediction Accuracy</h2>
+    <p>The scatter plot below compares the model's predicted fare against the actual fare for a sample of rides. Hover over points to view the distance, hour, and day of week for each ride.</p>
+
+    <iframe src="https://yourusername.github.io/uber-fare-prediction/uber_fare_prediction_accuracy_all_tooltips.html"></iframe>
+  </main>
+  <footer>
+    <p>&copy; 2025 Uber Fare Analysis Project</p>
+  </footer>
+</body>
+</html>
