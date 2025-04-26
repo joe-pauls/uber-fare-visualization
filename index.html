@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Uber Fare Prediction Project</title>
+  <title>Uber Fare Visualization Project</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
@@ -20,11 +20,11 @@
     }
     main {
       padding: 2em;
-      max-width: 900px;
+      max-width: 1500px;
       margin: auto;
       background: white;
     }
-    h1, h2 {
+    h2 {
       color: #333;
     }
     iframe {
@@ -39,21 +39,132 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Uber Fare Prediction</h1>
-  </header>
+	<header style="background: #333; padding: 1em 2em; position: relative; text-align: center;">
+	  <h1 style="margin: 0; font-size: 2.2em; color: white;">Uber Fare Visualizations</h1>
+	  <div style="position: absolute; right: 2em; top: 50%; transform: translateY(-50%); color: white; font-size: 1.2em;">
+		Joseph Pauls
+	  </div>
+	</header>
   <main>
     <h2>Project Overview</h2>
-    <p>This project uses historical Uber ride data to build a machine learning model that predicts the fare of a trip based on variables such as trip distance, pickup and dropoff locations, time of day, and day of the week.</p>
-    <p>The dataset used for training the model was sourced from <a href="https://www.kaggle.com/datasets/yasserh/uber-fares-dataset" target="_blank">Kaggle: Uber Fares Dataset</a>.</p>
+    <p>This project uses Uber ride data in the New York City area to build a regression model that predicts the fare of a trip based on variables such as trip distance, pickup and dropoff locations, time of day, and day of the week.</p>
+    <p>The dataset used for training the model was sourced from <a href="https://www.kaggle.com/datasets/yasserh/uber-fares-dataset" target="_blank">Kaggle: Uber Fares Dataset</a>. DISCLAIMER: this dataset was created for training purposes only and does not represent real Uber trips due to data privacy concerns. Instead, a synthetic dataset that mirrors the actual trends of Uber rides from 2009-2015 was used to train the Random Forest Regression model and to create the rest of the visualizations on this page.</p>
 
-    <h2>Prediction Accuracy</h2>
-    <p>The scatter plot below compares the model's predicted fare against the actual fare for a sample of rides. Hover over points to view the distance, hour, and day of week for each ride.</p>
-
+    <h2>Uber Fare Prediction</h2>
+    <p>This visualization compares the model's predicted fare to the actual fare based on trip features. The prediction model used here is a Random Forest Regressor trained on distance, pickup/dropoff location, hour of day, and day of week. Fare prices vary considerably based on these features, and the model was able to capture a fair amount of this variance. Distance turned out to be the most influential factor, followed by time of day and location patterns. It is likely that in this synthetic dataset made for training purposes, there were outliers and erroneous datapoints that were included so that data cleaning was required. This was certainly the case for some of the latitude and longitude coordinates, some of which were not within the bounds of a real coordinate, while others were valid coordinates but were nowhere near NYC. In addition, there are multiple rides that do not make sense. For example, the visualization below shows a ride that was 80 miles but only cost $9.70. Unlike the invalid coordinates, rides that were considered "strangely priced" were kept in the model, and despite this the R² score shows decent predictive performance.</p>
     <iframe src="https://joe-pauls.github.io/uber-fare-visualization/uber_fare_prediction_accuracy.html"></iframe>
+	
+	<h2>Hourly Pickup Activity</h2>
+    <p>This animated heatmap loops through each hour of the day, showing where Uber pickups are most frequent at different times of day. While you'd expect to see specific "hotspots" appear, the sheer population density of NYC puts a hotspot on nearly every street at almost every hour. However, if you zoom in on locations that are frequently used as pickup locations, such as Penn Station and Grand Central Station, the density of the heatmap does increase noticeably.</p>
+    <iframe src="uber_hourly_heatmap.html"></iframe>
+	
+	<h2>Hourly Ride Volume</h2>
+    <p>This chart highlights when people are most likely to use Uber. The most interesting portion is the large dip in rides at 4 and 5 am. These are the "dead hours" where there's a lull between late-night activity and early morning commuters.These same hours often see higher fares due to low supply and minimal driver availability.</p>
+    <div class='tableauPlaceholder' id='viz1745463660965' style='position: relative'>
+      <noscript><a href='#'><img alt='Number of Rides Hourly' src='https://public.tableau.com/static/images/Ub/Uber-fare-visualizations_hourly_rides/NumberofRidesHourly/1_rss.png' style='border: none' /></a></noscript>
+      <object class='tableauViz' style='display:none;'>
+        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+        <param name='embed_code_version' value='3' />
+        <param name='site_root' value='' />
+        <param name='name' value='Uber-fare-visualizations_hourly_rides/NumberofRidesHourly' />
+        <param name='tabs' value='no' />
+        <param name='toolbar' value='yes' />
+        <param name='static_image' value='https://public.tableau.com/static/images/Ub/Uber-fare-visualizations_hourly_rides/NumberofRidesHourly/1.png' />
+        <param name='animate_transition' value='yes' />
+        <param name='display_static_image' value='yes' />
+        <param name='display_spinner' value='yes' />
+        <param name='display_overlay' value='yes' />
+        <param name='display_count' value='yes' />
+        <param name='language' value='en-US' />
+        <param name='filter' value='publish=yes' />
+      </object>
+    </div>
+	
+	<h2>Average Fare vs. Pickup Time</h2>
+	<p>This plot aligns with the hourly ride volume with a supply-and-demand dynamic. Fares spike during the 4–5 AM window, likely due to fewer drivers actively driving for Uber and consistent demand from airport runs and late-night travelers. It's a good example of how time of day plays a big role in pricing.</p>
+	<div class='tableauPlaceholder' id='viz1745463855829' style='position: relative'>
+		<noscript><a href='#'><img alt='Avg. Fare vs. Pickup Time ' src='https://public.tableau.com/static/images/Ub/Uber-fare-visualizations_average_fare/Avg_Farevs_PickupTime/1_rss.png' style='border: none' /></a></noscript>
+		<object class='tableauViz' style='display:none;'>
+			<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+			<param name='embed_code_version' value='3' />
+			<param name='site_root' value='' />
+			<param name='name' value='Uber-fare-visualizations_average_fare/Avg_Farevs_PickupTime' />
+			<param name='tabs' value='no' />
+			<param name='toolbar' value='yes' />
+			<param name='static_image' value='https://public.tableau.com/static/images/Ub/Uber-fare-visualizations_average_fare/Avg_Farevs_PickupTime/1.png' />
+			<param name='animate_transition' value='yes' />
+			<param name='display_static_image' value='yes' />
+			<param name='display_spinner' value='yes' />
+			<param name='display_overlay' value='yes' />
+			<param name='display_count' value='yes' />
+			<param name='language' value='en-US' />
+			<param name='filter' value='publish=yes' />
+		</object>
+	</div>
+	
+	<h2>Passenger Distribution Per Ride</h2>
+    <p>This pie chart explores how many people typically ride in an Uber. The size of each slice is based off the number of rides containing each number of riders, while the hovering over each slice will show the total number of passengers, the total number of rides, and the percentage of the total passengers for each number of riders. There's a fairly even distribution throughout the day, but at night there's a small uptick in rides with 2–3 passengers — likely people going out or coming back from group events. The dead hours around 4–5 AM see the lowest passenger counts, likely because most rides are to and from airports or other early-morning activities that are generally done solo.</p>
+    <div class='tableauPlaceholder' id='viz1745463339193' style='position: relative'>
+      <noscript><a href='#'><img alt='Passenger Distribution per ride' src='https://public.tableau.com/static/images/Ub/Uber-fare-visualizations/PassengerDistributionperride/1_rss.png' style='border: none' /></a></noscript>
+      <object class='tableauViz' style='display:none;'>
+        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com/' />
+        <param name='embed_code_version' value='3' />
+        <param name='site_root' value='' />
+        <param name='name' value='Uber-fare-visualizations/PassengerDistributionperride' />
+        <param name='tabs' value='no' />
+        <param name='toolbar' value='yes' />
+        <param name='static_image' value='https://public.tableau.com/static/images/Ub/Uber-fare-visualizations/PassengerDistributionperride/1.png' />
+        <param name='animate_transition' value='yes' />
+        <param name='display_static_image' value='yes' />
+        <param name='display_spinner' value='yes' />
+        <param name='display_overlay' value='yes' />
+        <param name='display_count' value='yes' />
+        <param name='language' value='en-US' />
+        <param name='filter' value='publish=yes' />
+      </object>
+    </div>
+	
+	
+	<h2>Fare Amount vs. Distance</h2>
+	<p>This visualization might be slightly confusing: while we expect fares to rise with distance, this plot shows some strange outliers, like a 500-mile ride for just $1.92 and another 55-mile trip for $8. Also, the trend in fares seems to decrease as distance increases despite the noise. This stems from two possible reasons: first, the price of an uber ride is based on many factors besides distance, which is why a simple one variable linear regression would not work well and more features are required to make an accurate prediction. Second, the data for these visualizations are sourced from a training dataset and may not reflect a completely accurate representation of what one would expect the trend between distance and fare to be.</p>
+	<div class='tableauPlaceholder' id='viz1745464167640' style='position: relative'>
+	  <noscript><a href='#'><img alt='Fare Amount vs. Distance ' src='https://public.tableau.com/static/images/Ub/Uber-fare-visualizations_fare_vs_distance/FareAmountvs_Distance/1_rss.png' style='border: none' /></a></noscript>
+	  <object class='tableauViz' style='display:none;'>
+		<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+		<param name='embed_code_version' value='3' />
+		<param name='site_root' value='' />
+		<param name='name' value='Uber-fare-visualizations_fare_vs_distance/FareAmountvs_Distance' />
+		<param name='tabs' value='no' />
+		<param name='toolbar' value='yes' />
+		<param name='static_image' value='https://public.tableau.com/static/images/Ub/Uber-fare-visualizations_fare_vs_distance/FareAmountvs_Distance/1.png' />
+		<param name='animate_transition' value='yes' />
+		<param name='display_static_image' value='yes' />
+		<param name='display_spinner' value='yes' />
+		<param name='display_overlay' value='yes' />
+		<param name='display_count' value='yes' />
+		<param name='language' value='en-US' />
+		<param name='filter' value='publish=yes' />
+	  </object>
+	</div>	
+  </main>
+ <script type='text/javascript'>
+  function initViz(id) {
+    const divElement = document.getElementById(id);
+    const vizElement = divElement.getElementsByTagName('object')[0];
+    vizElement.style.width = '100%';
+    vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
+    const scriptElement = document.createElement('script');
+    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+    vizElement.parentNode.insertBefore(scriptElement, vizElement);
+  }
+  initViz('viz1745463339193');
+  initViz('viz1745463660965');
+  initViz('viz1745463855829');
+  initViz('viz1745464167640');
+</script>
   </main>
   <footer>
-    <p>&copy; 2025 Uber Fare Analysis Project</p>
+    <p>&copy; 2025 Joseph Pauls - University of South Carolina</p>
   </footer>
 </body>
 </html>

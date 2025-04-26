@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Hourly Uber Pickup Heatmap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    #map { height: 90vh; }
+    #controls { padding: 1em; text-align: center; background: #f2f2f2; }
+    input[type="range"] { width: 300px; }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <label for="hourRange">Select Hour:</label>
+    <input type="range" id="hourRange" min="0" max="23" value="12" />
+    <span id="hourLabel">Hour: 12</span>
+  </div>
+  <div id="map"></div>
+
+  <script>
+    const map = L.map('map').setView([40.75, -73.98], 12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    let heatLayer;
+    let hourlyData = {};
+
+    fetch('uber_hourly_pickups.json')
+      .then(res => res.json())
+      .then(data => {
+        hourlyData = data;
+        updateHeatmap(12); // default hour
+      });
+
+    document.getElementById("hourRange").addEventListener("input", function() {
+      const hour = parseInt(this.value);
+      document.getElementById("hourLabel").textContent = `Hour: ${hour}`;
+      updateHeatmap(hour);
+    });
+
+    function updateHeatmap(hour) {
+      if (heatLayer) map.removeLayer(heatLayer);
+      const points = hourlyData[hour] || [];
+      heatLayer = L.heatLayer(points, { radius: 8, blur: 15 }).addTo(map);
+    }
+  </script>
+</body>
+</html>
